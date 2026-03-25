@@ -1,3 +1,16 @@
+# Modification of LocalSend CLI for Photo-Frame addon of the Candle Smart Home Controller
+
+
+```
+# First, download the Go Compiler and unpack it to /home/pi/.webthings/go
+export GOPATH=/home/pi/go
+export GOROOT=/home/pi/.webthings/go
+export PATH=$PATH:/home/pi/.webthings/go/bin
+
+# Then compile with:
+go build
+```
+
 ### LocalSend CLI
 
 Simple CLI program that implements LocalSend v2 protocol
