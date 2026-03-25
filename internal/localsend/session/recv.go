@@ -81,26 +81,34 @@ func (sess *RecvSession) SaveFile(saveToDir string, fileId string, token string,
 		return lserrors.ErrRejected
 	}
 
-	// write the file data to disk
-	saveAs := filepath.Join(saveToDir, expectedMeta.Filename)
-	err := os.WriteFile(saveAs, fileData, 0o640)
-	if err != nil {
-		return lserrors.ErrFileIO
-	}
-
-	// calculate checksum if it's provided
-	if expectedMeta.Checksum != "" {
-		checksum, err := utils.SHA256ofFile(saveAs)
+	if strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".jpg") || strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".jpeg") || strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".gif" || strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".webp" || strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".png"))) {
+    	//fmt.Println("The file is an image.")
+		// write the file data to disk
+		saveAs := filepath.Join(saveToDir, expectedMeta.Filename)
+		err := os.WriteFile(saveAs, fileData, 0o640)
 		if err != nil {
-			return lserrors.ErrChecksum
+			return lserrors.ErrFileIO
+		}
+	
+		// calculate checksum if it's provided
+		if expectedMeta.Checksum != "" {
+			checksum, err := utils.SHA256ofFile(saveAs)
+			if err != nil {
+				return lserrors.ErrChecksum
+			}
+	
+			if checksum != expectedMeta.Checksum {
+				return lserrors.ErrChecksum
+			}
 		}
 
-		if checksum != expectedMeta.Checksum {
-			return lserrors.ErrChecksum
-		}
+		slog.Info("Recv file", "file", expectedMeta.Filename, "session", sess.id)
 	}
-
-	slog.Info("Recv file", "file", expectedMeta.Filename, "session", sess.id)
+	else {
+		slog.Info("Skip file", "file", expectedMeta.Filename, "session", sess.id)
+	}
+	
+	
 
 	// remove finished file
 	atomic.AddInt64(&sess.filesCount, -1)
