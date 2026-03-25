@@ -81,8 +81,15 @@ func (sess *RecvSession) SaveFile(saveToDir string, fileId string, token string,
 		return lserrors.ErrRejected
 	}
 
-	if strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".jpg") || strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".jpeg") || strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".gif") || strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".webp") || strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".png") {
+	
+	if  strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".jpg")  || 
+		strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".jpeg") || 
+		strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".gif")  || 
+		strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".webp") || 
+		strings.HasSuffix(strings.ToLower(expectedMeta.Filename), ".png") {
+			
     	//fmt.Println("The file is an image.")
+			
 		// write the file data to disk
 		saveAs := filepath.Join(saveToDir, expectedMeta.Filename)
 		err := os.WriteFile(saveAs, fileData, 0o640)
@@ -103,8 +110,7 @@ func (sess *RecvSession) SaveFile(saveToDir string, fileId string, token string,
 		}
 
 		slog.Info("Recv file", "file", expectedMeta.Filename, "session", sess.id)
-	}
-	else {
+	} else {
 		slog.Info("Skip file", "file", expectedMeta.Filename, "session", sess.id)
 	}
 	
