@@ -9,6 +9,9 @@ export PATH=$PATH:/home/pi/.webthings/go/bin
 
 # Then compile with:
 go build
+
+# and finally:
+cp ./localsend-cli /home/pi/.webthings/addons/photo-frame/localsend/localsend-cli64
 ```
 
 ### LocalSend CLI
