@@ -92,7 +92,7 @@ func (sess *RecvSession) SaveFile(saveToDir string, fileId string, token string,
     	//fmt.Println("The file is an image.")
 			
 		// write the file data to disk
-		saveAs := filepath.Join(saveToDir, expectedMeta.Filename)
+		saveAs := filepath.Join(saveToDir, strings.Replace(expectedMeta.Filename, " ", "_", -1))
 		err := os.WriteFile(saveAs, fileData, 0o640)
 		if err != nil {
 			return lserrors.ErrFileIO
