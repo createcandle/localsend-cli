@@ -11,7 +11,7 @@ export PATH=$PATH:/home/pi/.webthings/go/bin
 go build
 
 # and finally:
-cp ./localsend-cli /home/pi/.webthings/addons/photo-frame/localsend/localsend-cli64
+cp ./localsend-cli /home/pi/.webthings/addons/photo-frame/localsend/localsend_cli64
 ```
 
 ### LocalSend CLI
